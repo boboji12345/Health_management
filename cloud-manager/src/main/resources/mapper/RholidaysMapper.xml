@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RholidaysMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rholidays" >
+    <id column="hid" property="hid" jdbcType="INTEGER" />
+    <result column="huid" property="huid" jdbcType="INTEGER" />
+    <result column="hdate" property="hdate" jdbcType="DATE" />
+    <result column="hcont" property="hcont" jdbcType="VARCHAR" />
+    <result column="hflag" property="hflag" jdbcType="INTEGER" />
+    <result column="hteacherresult" property="hteacherresult" jdbcType="VARCHAR" />
+    <result column="hadminresult" property="hadminresult" jdbcType="VARCHAR" />
+    <result column="hbid" property="hbid" jdbcType="INTEGER" />
+
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="uimg" property="uimg" jdbcType="VARCHAR" />
+    <result column="utel" property="utel" jdbcType="VARCHAR" />
+
+    <result column="tuname" property="tuname" jdbcType="VARCHAR" />
+    <result column="bname" property="bname" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectAllSize" resultMap="BaseResultMap" >
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    order by u.hid desc
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    order by u.hid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="checkholidays" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select * from rholidays
+    where huid = #{huid} and (hflag = 1 or hflag = 0)
+    order by hid desc
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.hid = #{0}
+  </select>
+
+  <select id="selectByFlag" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.hflag = #{0}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByUidSize" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.huid = #{huid}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByUidAndFlag" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.huid = #{huid} and u.hflag = #{hflag}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByUid" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.huid = #{huid}
+    order by u.hid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByTidSize" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.hbid = #{hbid}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByTidAndFlag" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.hbid = #{hbid} and u.hflag = #{hflag}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByTid" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where u.hbid = #{hbid}
+    order by u.hid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyquerySize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where t.tuname like #{tuname} or ru.uname like #{uname} or ru.utel like #{utel} or c.bname like #{bname}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByFuzzyquery" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+     where t.tuname like #{tuname} or ru.uname like #{uname} or ru.utel like #{utel} or c.bname like #{bname}
+    order by u.hid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryByUidSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where (t.tuname like #{tuname} or ru.uname like #{uname} or ru.utel like #{utel} or c.bname like #{bname})
+        and u.huid = #{huid}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByFuzzyqueryByUid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+     where (t.tuname like #{tuname} or ru.uname like #{uname} or ru.utel like #{utel} or c.bname like #{bname})
+        and u.huid = #{huid}
+    order by u.hid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryByTidSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+    where ( ru.uname like #{uname} or ru.utel like #{utel} or c.bname like #{bname})
+        and u.hbid = #{hbid}
+    order by u.hid desc
+  </select>
+
+  <select id="selectAllByFuzzyqueryByTid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rholidays">
+    select u.*, c.bname, ru.uname, ru.uimg, ru.utel, t.tuname from rholidays as u
+    left join rusers as ru on ru.uid = u.huid
+    left join rclasss as c on c.bid = ru.ubid
+    left join rteachers as t on t.tuid = u.hbid
+     where ( ru.uname like #{uname} or ru.utel like #{utel} or c.bname like #{bname})
+        and u.hbid = #{hbid}
+    order by u.hid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    hid, huid, hdate, hcont, hflag, hteacherresult, hadminresult, hbid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RholidaysExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rholidays
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rholidays
+    where hid = #{hid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rholidays
+    where hid = #{hid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RholidaysExample" >
+    delete from rholidays
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rholidays" >
+    <selectKey resultType="java.lang.Integer" keyProperty="hid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rholidays (huid, hdate, hcont, 
+      hflag, hteacherresult, hadminresult, 
+      hbid)
+    values (#{huid,jdbcType=INTEGER}, #{hdate,jdbcType=DATE}, #{hcont,jdbcType=VARCHAR}, 
+      #{hflag,jdbcType=INTEGER}, #{hteacherresult,jdbcType=VARCHAR}, #{hadminresult,jdbcType=VARCHAR}, 
+      #{hbid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rholidays" >
+    <selectKey resultType="java.lang.Integer" keyProperty="hid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rholidays
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="huid != null" >
+        huid,
+      </if>
+      <if test="hdate != null" >
+        hdate,
+      </if>
+      <if test="hcont != null" >
+        hcont,
+      </if>
+      <if test="hflag != null" >
+        hflag,
+      </if>
+      <if test="hteacherresult != null" >
+        hteacherresult,
+      </if>
+      <if test="hadminresult != null" >
+        hadminresult,
+      </if>
+      <if test="hbid != null" >
+        hbid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="huid != null" >
+        #{huid,jdbcType=INTEGER},
+      </if>
+      <if test="hdate != null" >
+        #{hdate,jdbcType=DATE},
+      </if>
+      <if test="hcont != null" >
+        #{hcont,jdbcType=VARCHAR},
+      </if>
+      <if test="hflag != null" >
+        #{hflag,jdbcType=INTEGER},
+      </if>
+      <if test="hteacherresult != null" >
+        #{hteacherresult,jdbcType=VARCHAR},
+      </if>
+      <if test="hadminresult != null" >
+        #{hadminresult,jdbcType=VARCHAR},
+      </if>
+      <if test="hbid != null" >
+        #{hbid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RholidaysExample" resultType="java.lang.Integer" >
+    select count(*) from rholidays
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rholidays
+    <set >
+      <if test="record.hid != null" >
+        hid = #{record.hid,jdbcType=INTEGER},
+      </if>
+      <if test="record.huid != null" >
+        huid = #{record.huid,jdbcType=INTEGER},
+      </if>
+      <if test="record.hdate != null" >
+        hdate = #{record.hdate,jdbcType=DATE},
+      </if>
+      <if test="record.hcont != null" >
+        hcont = #{record.hcont,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hflag != null" >
+        hflag = #{record.hflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.hteacherresult != null" >
+        hteacherresult = #{record.hteacherresult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hadminresult != null" >
+        hadminresult = #{record.hadminresult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hbid != null" >
+        hbid = #{record.hbid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rholidays
+    set hid = #{record.hid,jdbcType=INTEGER},
+      huid = #{record.huid,jdbcType=INTEGER},
+      hdate = #{record.hdate,jdbcType=DATE},
+      hcont = #{record.hcont,jdbcType=VARCHAR},
+      hflag = #{record.hflag,jdbcType=INTEGER},
+      hteacherresult = #{record.hteacherresult,jdbcType=VARCHAR},
+      hadminresult = #{record.hadminresult,jdbcType=VARCHAR},
+      hbid = #{record.hbid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rholidays" >
+    update rholidays
+    <set >
+      <if test="huid != null" >
+        huid = #{huid,jdbcType=INTEGER},
+      </if>
+      <if test="hdate != null" >
+        hdate = #{hdate,jdbcType=DATE},
+      </if>
+      <if test="hcont != null" >
+        hcont = #{hcont,jdbcType=VARCHAR},
+      </if>
+      <if test="hflag != null" >
+        hflag = #{hflag,jdbcType=INTEGER},
+      </if>
+      <if test="hteacherresult != null" >
+        hteacherresult = #{hteacherresult,jdbcType=VARCHAR},
+      </if>
+      <if test="hadminresult != null" >
+        hadminresult = #{hadminresult,jdbcType=VARCHAR},
+      </if>
+      <if test="hbid != null" >
+        hbid = #{hbid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where hid = #{hid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rholidays" >
+    update rholidays
+    set huid = #{huid,jdbcType=INTEGER},
+      hdate = #{hdate,jdbcType=DATE},
+      hcont = #{hcont,jdbcType=VARCHAR},
+      hflag = #{hflag,jdbcType=INTEGER},
+      hteacherresult = #{hteacherresult,jdbcType=VARCHAR},
+      hadminresult = #{hadminresult,jdbcType=VARCHAR},
+      hbid = #{hbid,jdbcType=INTEGER}
+    where hid = #{hid,jdbcType=INTEGER}
+  </update>
+</mapper>

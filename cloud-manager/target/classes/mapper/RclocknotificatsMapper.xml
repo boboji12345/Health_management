@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RclocknotificatsMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rclocknotificats" >
+    <id column="nid" property="nid" jdbcType="INTEGER" />
+    <result column="ntitle" property="ntitle" jdbcType="VARCHAR" />
+    <result column="ndate" property="ndate" jdbcType="VARCHAR" />
+    <result column="nstarthour" property="nstarthour" jdbcType="VARCHAR" />
+    <result column="nendhour" property="nendhour" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <select id="selectAllSize" resultMap="BaseResultMap" >
+    select *
+    from rclocknotificats
+    order by nid desc
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap"
+            parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    select *
+    from rclocknotificats
+    order by nid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+    <select id="selectAllFuzzyquery" resultMap="BaseResultMap"
+            parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    select *
+    from rclocknotificats
+    where ntitle like #{ntitle,jdbcType=VARCHAR} or ndate like #{ndate,jdbcType=VARCHAR}
+    order by nid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+    <select id="selectAllFuzzyquerySize" resultMap="BaseResultMap"
+            parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    select *
+    from rclocknotificats
+    where ntitle like #{ntitle,jdbcType=VARCHAR} or ndate like #{ndate,jdbcType=VARCHAR}
+    order by nid desc
+  </select>
+
+    <select id="checkdatas" resultMap="BaseResultMap"
+            parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    select *
+    from rclocknotificats
+    where ntitle = #{ntitle,jdbcType=VARCHAR} or ndate = #{ndate,jdbcType=VARCHAR}
+    order by nid desc
+  </select>
+
+  <select id="finddatasbycurrdates" resultMap="BaseResultMap" parameterType="String" >
+    select *
+    from rclocknotificats
+    where ndate = #{ndate,jdbcType=VARCHAR}
+    order by nid desc
+  </select>
+
+    <select id="selectByDate" resultMap="BaseResultMap"
+            parameterType="String" >
+    select *
+    from rclocknotificats
+    where ndate = #{ndate,jdbcType=VARCHAR}
+  </select>
+
+    <select id="selectById" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer" >
+    select *
+    from rclocknotificats
+    where nid = #{nid,jdbcType=INTEGER}
+  </select>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nid, ntitle, ndate, nstarthour, nendhour
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RclocknotificatsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rclocknotificats
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rclocknotificats
+    where nid = #{nid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rclocknotificats
+    where nid = #{nid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RclocknotificatsExample" >
+    delete from rclocknotificats
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    <selectKey resultType="java.lang.Integer" keyProperty="nid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rclocknotificats (ntitle, ndate, nstarthour, 
+      nendhour)
+    values (#{ntitle,jdbcType=VARCHAR}, #{ndate,jdbcType=VARCHAR}, #{nstarthour,jdbcType=VARCHAR}, 
+      #{nendhour,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    <selectKey resultType="java.lang.Integer" keyProperty="nid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rclocknotificats
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ntitle != null" >
+        ntitle,
+      </if>
+      <if test="ndate != null" >
+        ndate,
+      </if>
+      <if test="nstarthour != null" >
+        nstarthour,
+      </if>
+      <if test="nendhour != null" >
+        nendhour,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ntitle != null" >
+        #{ntitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ndate != null" >
+        #{ndate,jdbcType=VARCHAR},
+      </if>
+      <if test="nstarthour != null" >
+        #{nstarthour,jdbcType=VARCHAR},
+      </if>
+      <if test="nendhour != null" >
+        #{nendhour,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RclocknotificatsExample" resultType="java.lang.Integer" >
+    select count(*) from rclocknotificats
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rclocknotificats
+    <set >
+      <if test="record.nid != null" >
+        nid = #{record.nid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ntitle != null" >
+        ntitle = #{record.ntitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ndate != null" >
+        ndate = #{record.ndate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nstarthour != null" >
+        nstarthour = #{record.nstarthour,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nendhour != null" >
+        nendhour = #{record.nendhour,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rclocknotificats
+    set nid = #{record.nid,jdbcType=INTEGER},
+      ntitle = #{record.ntitle,jdbcType=VARCHAR},
+      ndate = #{record.ndate,jdbcType=VARCHAR},
+      nstarthour = #{record.nstarthour,jdbcType=VARCHAR},
+      nendhour = #{record.nendhour,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    update rclocknotificats
+    <set >
+      <if test="ntitle != null" >
+        ntitle = #{ntitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ndate != null" >
+        ndate = #{ndate,jdbcType=VARCHAR},
+      </if>
+      <if test="nstarthour != null" >
+        nstarthour = #{nstarthour,jdbcType=VARCHAR},
+      </if>
+      <if test="nendhour != null" >
+        nendhour = #{nendhour,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nid = #{nid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rclocknotificats" >
+    update rclocknotificats
+    set ntitle = #{ntitle,jdbcType=VARCHAR},
+      ndate = #{ndate,jdbcType=VARCHAR},
+      nstarthour = #{nstarthour,jdbcType=VARCHAR},
+      nendhour = #{nendhour,jdbcType=VARCHAR}
+    where nid = #{nid,jdbcType=INTEGER}
+  </update>
+</mapper>

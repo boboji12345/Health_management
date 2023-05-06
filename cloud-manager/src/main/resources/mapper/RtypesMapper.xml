@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RtypesMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rtypes" >
+    <id column="rtid" property="rtid" jdbcType="INTEGER" />
+    <result column="rtname" property="rtname" jdbcType="VARCHAR" />
+    <result column="rtimg" property="rtimg" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectAllSize" resultMap="BaseResultMap" >
+    select * from rtypes
+    order by rtid desc
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select * from rtypes
+    order by rtid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllByFuzzyquerySize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rtypes">
+    select *
+    from rtypes
+    where rtname like #{rtname}
+    order by rtid desc
+  </select>
+  <select id="selectAllByFuzzyquery" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rtypes">
+    select *
+    from rtypes
+    where rtname like #{rtname}
+    order by rtid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    rtid, rtname, rtimg
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RtypesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rtypes
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rtypes
+    where rtid = #{rtid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rtypes
+    where rtid = #{rtid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RtypesExample" >
+    delete from rtypes
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rtypes" >
+    <selectKey resultType="java.lang.Integer" keyProperty="rtid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rtypes (rtname, rtimg)
+    values (#{rtname,jdbcType=VARCHAR}, #{rtimg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rtypes" >
+    <selectKey resultType="java.lang.Integer" keyProperty="rtid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rtypes
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rtname != null" >
+        rtname,
+      </if>
+      <if test="rtimg != null" >
+        rtimg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rtname != null" >
+        #{rtname,jdbcType=VARCHAR},
+      </if>
+      <if test="rtimg != null" >
+        #{rtimg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RtypesExample" resultType="java.lang.Integer" >
+    select count(*) from rtypes
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rtypes
+    <set >
+      <if test="record.rtid != null" >
+        rtid = #{record.rtid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rtname != null" >
+        rtname = #{record.rtname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtimg != null" >
+        rtimg = #{record.rtimg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rtypes
+    set rtid = #{record.rtid,jdbcType=INTEGER},
+      rtname = #{record.rtname,jdbcType=VARCHAR},
+      rtimg = #{record.rtimg,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rtypes" >
+    update rtypes
+    <set >
+      <if test="rtname != null" >
+        rtname = #{rtname,jdbcType=VARCHAR},
+      </if>
+      <if test="rtimg != null" >
+        rtimg = #{rtimg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rtid = #{rtid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rtypes" >
+    update rtypes
+    set rtname = #{rtname,jdbcType=VARCHAR},
+      rtimg = #{rtimg,jdbcType=VARCHAR}
+    where rtid = #{rtid,jdbcType=INTEGER}
+  </update>
+</mapper>

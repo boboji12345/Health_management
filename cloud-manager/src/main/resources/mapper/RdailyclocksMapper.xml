@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RdailyclocksMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rdailyclocks" >
+    <id column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="pdate" property="pdate" jdbcType="VARCHAR" />
+    <result column="pattr" property="pattr" jdbcType="VARCHAR" />
+    <result column="ptemperature" property="ptemperature" jdbcType="VARCHAR" />
+    <result column="puid" property="puid" jdbcType="INTEGER" />
+    <result column="puzhengjianhaoma" property="puzhengjianhaoma" jdbcType="VARCHAR" />
+    <result column="plaiyuan" property="plaiyuan" jdbcType="VARCHAR" />
+    <result column="pshentizhuangkuang" property="pshentizhuangkuang" jdbcType="VARCHAR" />
+
+    <result column="uimg" property="uimg" jdbcType="VARCHAR" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="utel" property="utel" jdbcType="VARCHAR" />
+    <result column="uroomnumber" property="uroomnumber" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectDatasForEcharts" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks">
+    select * from rdailyclocks where pshentizhuangkuang = #{pshentizhuangkuang,jdbcType=VARCHAR}
+        and pdate = #{pdate,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectTeacherDatasForEcharts" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks">
+    select d.* from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    left join rclasss as c on c.bid = u.ubid
+     where d.pshentizhuangkuang = #{pshentizhuangkuang,jdbcType=VARCHAR}
+        and d.pdate = #{pdate,jdbcType=VARCHAR} and u.ubid = #{bid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllSize" resultMap="BaseResultMap" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    order by d.pid desc
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    order by d.pid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+    <select id="selectAllByFuzzyquerySize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    where d.puzhengjianhaoma like #{puzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.plaiyuan like #{plaiyuan,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.pshentizhuangkuang like #{pshentizhuangkuang,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR}
+    order by d.pid desc
+  </select>
+  <select id="selectAllByFuzzyquery" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    where d.puzhengjianhaoma like #{puzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.plaiyuan like #{plaiyuan,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.pshentizhuangkuang like #{pshentizhuangkuang,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR}
+    order by d.pid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+    <select id="selectAllByFuzzyqueryByUidSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    where (d.puzhengjianhaoma like #{puzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.plaiyuan like #{plaiyuan,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.pshentizhuangkuang like #{pshentizhuangkuang,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and d.puid = #{puid,jdbcType=INTEGER}
+    order by d.pid desc
+  </select>
+  <select id="selectAllByFuzzyqueryByUid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    where (d.puzhengjianhaoma like #{puzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.plaiyuan like #{plaiyuan,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.pshentizhuangkuang like #{pshentizhuangkuang,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and d.puid = #{puid,jdbcType=INTEGER}
+    order by d.pid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryByBidSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    left join rclasss as c on c.bid = u.ubid
+    where (d.puzhengjianhaoma like #{puzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.plaiyuan like #{plaiyuan,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.pshentizhuangkuang like #{pshentizhuangkuang,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and u.ubid = #{bid,jdbcType=INTEGER}
+    order by d.pid desc
+  </select>
+  <select id="selectAllByFuzzyqueryByBid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    left join rclasss as c on c.bid = u.ubid
+    where (d.puzhengjianhaoma like #{puzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.plaiyuan like #{plaiyuan,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.pshentizhuangkuang like #{pshentizhuangkuang,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and u.ubid = #{bid,jdbcType=INTEGER}
+    order by d.pid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+    <select id="selectByUidSize" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    where d.puid = #{puid,jdbcType=INTEGER}
+    order by d.pid desc
+  </select>
+  <select id="selectByUid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    where d.puid = #{puid,jdbcType=INTEGER}
+    order by d.pid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    where d.pid = #{pid,jdbcType=INTEGER}
+    order by d.pid desc
+  </select>
+
+  <select id="selectByBidSize" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid = #{bid,jdbcType=INTEGER}
+    order by d.pid desc
+  </select>
+  <select id="selectByBid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rdailyclocks as d
+    left join rusers as u on u.uid = d.puid
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid = #{bid,jdbcType=INTEGER}
+    order by d.pid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+  
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pid, pdate, pattr, ptemperature, puid, puzhengjianhaoma, plaiyuan, pshentizhuangkuang
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RdailyclocksExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rdailyclocks
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rdailyclocks
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rdailyclocks
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RdailyclocksExample" >
+    delete from rdailyclocks
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    <selectKey resultType="java.lang.Integer" keyProperty="pid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rdailyclocks (pdate, pattr, ptemperature, 
+      puid, puzhengjianhaoma, plaiyuan, 
+      pshentizhuangkuang)
+    values (#{pdate,jdbcType=VARCHAR}, #{pattr,jdbcType=VARCHAR}, #{ptemperature,jdbcType=VARCHAR}, 
+      #{puid,jdbcType=INTEGER}, #{puzhengjianhaoma,jdbcType=VARCHAR}, #{plaiyuan,jdbcType=VARCHAR}, 
+      #{pshentizhuangkuang,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    <selectKey resultType="java.lang.Integer" keyProperty="pid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rdailyclocks
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pdate != null" >
+        pdate,
+      </if>
+      <if test="pattr != null" >
+        pattr,
+      </if>
+      <if test="ptemperature != null" >
+        ptemperature,
+      </if>
+      <if test="puid != null" >
+        puid,
+      </if>
+      <if test="puzhengjianhaoma != null" >
+        puzhengjianhaoma,
+      </if>
+      <if test="plaiyuan != null" >
+        plaiyuan,
+      </if>
+      <if test="pshentizhuangkuang != null" >
+        pshentizhuangkuang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pdate != null" >
+        #{pdate,jdbcType=VARCHAR},
+      </if>
+      <if test="pattr != null" >
+        #{pattr,jdbcType=VARCHAR},
+      </if>
+      <if test="ptemperature != null" >
+        #{ptemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="puid != null" >
+        #{puid,jdbcType=INTEGER},
+      </if>
+      <if test="puzhengjianhaoma != null" >
+        #{puzhengjianhaoma,jdbcType=VARCHAR},
+      </if>
+      <if test="plaiyuan != null" >
+        #{plaiyuan,jdbcType=VARCHAR},
+      </if>
+      <if test="pshentizhuangkuang != null" >
+        #{pshentizhuangkuang,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RdailyclocksExample" resultType="java.lang.Integer" >
+    select count(*) from rdailyclocks
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rdailyclocks
+    <set >
+      <if test="record.pid != null" >
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pdate != null" >
+        pdate = #{record.pdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pattr != null" >
+        pattr = #{record.pattr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptemperature != null" >
+        ptemperature = #{record.ptemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.puid != null" >
+        puid = #{record.puid,jdbcType=INTEGER},
+      </if>
+      <if test="record.puzhengjianhaoma != null" >
+        puzhengjianhaoma = #{record.puzhengjianhaoma,jdbcType=VARCHAR},
+      </if>
+      <if test="record.plaiyuan != null" >
+        plaiyuan = #{record.plaiyuan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pshentizhuangkuang != null" >
+        pshentizhuangkuang = #{record.pshentizhuangkuang,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rdailyclocks
+    set pid = #{record.pid,jdbcType=INTEGER},
+      pdate = #{record.pdate,jdbcType=VARCHAR},
+      pattr = #{record.pattr,jdbcType=VARCHAR},
+      ptemperature = #{record.ptemperature,jdbcType=VARCHAR},
+      puid = #{record.puid,jdbcType=INTEGER},
+      puzhengjianhaoma = #{record.puzhengjianhaoma,jdbcType=VARCHAR},
+      plaiyuan = #{record.plaiyuan,jdbcType=VARCHAR},
+      pshentizhuangkuang = #{record.pshentizhuangkuang,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    update rdailyclocks
+    <set >
+      <if test="pdate != null" >
+        pdate = #{pdate,jdbcType=VARCHAR},
+      </if>
+      <if test="pattr != null" >
+        pattr = #{pattr,jdbcType=VARCHAR},
+      </if>
+      <if test="ptemperature != null" >
+        ptemperature = #{ptemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="puid != null" >
+        puid = #{puid,jdbcType=INTEGER},
+      </if>
+      <if test="puzhengjianhaoma != null" >
+        puzhengjianhaoma = #{puzhengjianhaoma,jdbcType=VARCHAR},
+      </if>
+      <if test="plaiyuan != null" >
+        plaiyuan = #{plaiyuan,jdbcType=VARCHAR},
+      </if>
+      <if test="pshentizhuangkuang != null" >
+        pshentizhuangkuang = #{pshentizhuangkuang,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rdailyclocks" >
+    update rdailyclocks
+    set pdate = #{pdate,jdbcType=VARCHAR},
+      pattr = #{pattr,jdbcType=VARCHAR},
+      ptemperature = #{ptemperature,jdbcType=VARCHAR},
+      puid = #{puid,jdbcType=INTEGER},
+      puzhengjianhaoma = #{puzhengjianhaoma,jdbcType=VARCHAR},
+      plaiyuan = #{plaiyuan,jdbcType=VARCHAR},
+      pshentizhuangkuang = #{pshentizhuangkuang,jdbcType=VARCHAR}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>

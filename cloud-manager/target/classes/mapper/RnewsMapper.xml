@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RnewsMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rnews" >
+    <id column="rnid" property="rnid" jdbcType="INTEGER" />
+    <result column="rntitle" property="rntitle" jdbcType="VARCHAR" />
+    <result column="rinstroduces" property="rinstroduces" jdbcType="VARCHAR" />
+    <result column="rimg" property="rimg" jdbcType="VARCHAR" />
+    <result column="rtid" property="rtid" jdbcType="INTEGER" />
+    <result column="rdate" property="rdate" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="AllResultMap" type="com.myclouds.manager.pojo.Rnews" >
+    <id column="rnid" property="rnid" jdbcType="INTEGER" />
+    <result column="rntitle" property="rntitle" jdbcType="VARCHAR" />
+    <result column="rinstroduces" property="rinstroduces" jdbcType="VARCHAR" />
+    <result column="rimg" property="rimg" jdbcType="VARCHAR" />
+    <result column="rtid" property="rtid" jdbcType="INTEGER" />
+    <result column="rdate" property="rdate" jdbcType="DATE" />
+    <result column="rcont" property="rcont" jdbcType="LONGVARCHAR" />
+    <result column="rtname" property="rtname" jdbcType="VARCHAR" />
+    <result column="rnums" property="rnums" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.myclouds.manager.pojo.Rnews" extends="BaseResultMap" >
+    <result column="rcont" property="rcont" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <select id="findAllNewsSize" resultMap="AllResultMap">
+    select n.*, t.rtname
+    from rnews as n
+    left join rtypes as t on t.rtid = n.rtid
+    order by n.rnid desc
+  </select>
+  <select id="findAllNews" resultMap="AllResultMap" parameterType="com.myclouds.manager.pojo.Rnews">
+   select n.*, t.rtname
+    from rnews as n
+    left join rtypes as t on t.rtid = n.rtid
+    order by n.rnid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+  <select id="findNewsByNid" resultMap="AllResultMap" parameterType="java.lang.Integer">
+ select n.*, t.rtname
+    from rnews as n
+    left join rtypes as t on t.rtid = n.rtid
+    where n.rnid = #{0}
+    order by n.rnid desc
+  </select>
+  <select id="findAllNewsByFuzzyquerySize" resultMap="AllResultMap" parameterType="com.myclouds.manager.pojo.Rnews">
+ select n.*, t.rtname
+    from rnews as n
+    left join rtypes as t on t.rtid = n.rtid
+    where n.rntitle like #{rntitle} or n.rinstroduces like #{rinstroduces} or t.rtname like #{rtname}
+    order by n.rnid desc
+  </select>
+  <select id="findAllNewsByFuzzyquery" resultMap="AllResultMap" parameterType="com.myclouds.manager.pojo.Rnews">
+ select n.*, t.rtname
+    from rnews as n
+    left join rtypes as t on t.rtid = n.rtid
+    where n.rntitle like #{rntitle} or n.rinstroduces like #{rinstroduces} or t.rtname like #{rtname}
+    order by n.rnid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <update id="updateNewsnums" parameterType="com.myclouds.manager.pojo.Rnews" >
+    update rnews
+    set rnums = #{rnums,jdbcType=INTEGER}
+    where rnid = #{rnid,jdbcType=INTEGER}
+  </update>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    rnid, rntitle, rinstroduces, rimg, rtid, rdate
+  </sql>
+  <sql id="Blob_Column_List" >
+    rcont
+  </sql>
+
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.myclouds.manager.pojo.RnewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rnews
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RnewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rnews
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rnews
+    where rnid = #{rnid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rnews
+    where rnid = #{rnid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RnewsExample" >
+    delete from rnews
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rnews" >
+    <selectKey resultType="java.lang.Integer" keyProperty="rnid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rnews (rntitle, rinstroduces, rimg, 
+      rtid, rdate, rcont
+      )
+    values (#{rntitle,jdbcType=VARCHAR}, #{rinstroduces,jdbcType=VARCHAR}, #{rimg,jdbcType=VARCHAR}, 
+      #{rtid,jdbcType=INTEGER}, #{rdate,jdbcType=DATE}, #{rcont,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rnews" >
+    <selectKey resultType="java.lang.Integer" keyProperty="rnid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rnews
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rntitle != null" >
+        rntitle,
+      </if>
+      <if test="rinstroduces != null" >
+        rinstroduces,
+      </if>
+      <if test="rimg != null" >
+        rimg,
+      </if>
+      <if test="rtid != null" >
+        rtid,
+      </if>
+      <if test="rdate != null" >
+        rdate,
+      </if>
+      <if test="rcont != null" >
+        rcont,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rntitle != null" >
+        #{rntitle,jdbcType=VARCHAR},
+      </if>
+      <if test="rinstroduces != null" >
+        #{rinstroduces,jdbcType=VARCHAR},
+      </if>
+      <if test="rimg != null" >
+        #{rimg,jdbcType=VARCHAR},
+      </if>
+      <if test="rtid != null" >
+        #{rtid,jdbcType=INTEGER},
+      </if>
+      <if test="rdate != null" >
+        #{rdate,jdbcType=DATE},
+      </if>
+      <if test="rcont != null" >
+        #{rcont,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RnewsExample" resultType="java.lang.Integer" >
+    select count(*) from rnews
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rnews
+    <set >
+      <if test="record.rnid != null" >
+        rnid = #{record.rnid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rntitle != null" >
+        rntitle = #{record.rntitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rinstroduces != null" >
+        rinstroduces = #{record.rinstroduces,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rimg != null" >
+        rimg = #{record.rimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtid != null" >
+        rtid = #{record.rtid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rdate != null" >
+        rdate = #{record.rdate,jdbcType=DATE},
+      </if>
+      <if test="record.rcont != null" >
+        rcont = #{record.rcont,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update rnews
+    set rnid = #{record.rnid,jdbcType=INTEGER},
+      rntitle = #{record.rntitle,jdbcType=VARCHAR},
+      rinstroduces = #{record.rinstroduces,jdbcType=VARCHAR},
+      rimg = #{record.rimg,jdbcType=VARCHAR},
+      rtid = #{record.rtid,jdbcType=INTEGER},
+      rdate = #{record.rdate,jdbcType=DATE},
+      rcont = #{record.rcont,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rnews
+    set rnid = #{record.rnid,jdbcType=INTEGER},
+      rntitle = #{record.rntitle,jdbcType=VARCHAR},
+      rinstroduces = #{record.rinstroduces,jdbcType=VARCHAR},
+      rimg = #{record.rimg,jdbcType=VARCHAR},
+      rtid = #{record.rtid,jdbcType=INTEGER},
+      rdate = #{record.rdate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rnews" >
+    update rnews
+    <set >
+      <if test="rntitle != null" >
+        rntitle = #{rntitle,jdbcType=VARCHAR},
+      </if>
+      <if test="rinstroduces != null" >
+        rinstroduces = #{rinstroduces,jdbcType=VARCHAR},
+      </if>
+      <if test="rimg != null" >
+        rimg = #{rimg,jdbcType=VARCHAR},
+      </if>
+      <if test="rtid != null" >
+        rtid = #{rtid,jdbcType=INTEGER},
+      </if>
+      <if test="rdate != null" >
+        rdate = #{rdate,jdbcType=DATE},
+      </if>
+      <if test="rcont != null" >
+        rcont = #{rcont,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where rnid = #{rnid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.myclouds.manager.pojo.Rnews" >
+    update rnews
+    set rntitle = #{rntitle,jdbcType=VARCHAR},
+      rinstroduces = #{rinstroduces,jdbcType=VARCHAR},
+      rimg = #{rimg,jdbcType=VARCHAR},
+      rtid = #{rtid,jdbcType=INTEGER},
+      rdate = #{rdate,jdbcType=DATE},
+      rcont = #{rcont,jdbcType=LONGVARCHAR}
+    where rnid = #{rnid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rnews" >
+    update rnews
+    set rntitle = #{rntitle,jdbcType=VARCHAR},
+      rinstroduces = #{rinstroduces,jdbcType=VARCHAR},
+      rimg = #{rimg,jdbcType=VARCHAR},
+      rtid = #{rtid,jdbcType=INTEGER},
+      rdate = #{rdate,jdbcType=DATE}
+    where rnid = #{rnid,jdbcType=INTEGER}
+  </update>
+</mapper>

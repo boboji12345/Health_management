@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RusersMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rusers" >
+    <id column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="uimg" property="uimg" jdbcType="VARCHAR" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="upwd" property="upwd" jdbcType="VARCHAR" />
+    <result column="utel" property="utel" jdbcType="VARCHAR" />
+    <result column="usex" property="usex" jdbcType="VARCHAR" />
+    <result column="uage" property="uage" jdbcType="VARCHAR" />
+    <result column="uroomnumber" property="uroomnumber" jdbcType="VARCHAR" />
+    <result column="ustuids" property="ustuids" jdbcType="VARCHAR" />
+    <result column="ushen" property="ushen" jdbcType="VARCHAR" />
+
+    <result column="uflag" property="uflag" jdbcType="INTEGER" />
+    <result column="udailyclockdate" property="udailyclockdate" jdbcType="VARCHAR" />
+
+    <result column="ubid" property="ubid" jdbcType="INTEGER" />
+    <result column="bname" property="bname" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectAllSize" resultMap="BaseResultMap" >
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    order by u.uid desc
+  </select>
+
+  <select id="selectAllSizeByFlag" parameterType="com.myclouds.manager.pojo.Rusers" resultMap="BaseResultMap" >
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.uflag = #{uflag}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllSizeByFlagSize" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.uflag = #{uflag}
+    order by u.uid desc
+  </select>
+
+  <select id="selectAllByBidAndFlag" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid = #{ubid} and u.uflag = #{uflag}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByBidAndFlagSize" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid = #{ubid} and u.uflag = #{uflag}
+    order by u.uid desc
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByBidSize" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid = #{ubid}
+    order by u.uid desc
+  </select>
+
+  <select id="selectAllByBid" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid = #{ubid}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.uid = #{0}
+  </select>
+
+  <select id="selectByUstuids" resultMap="BaseResultMap"
+          parameterType="String">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.ustuids = #{ustuids}
+  </select>
+
+  <select id="checkUsers" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.utel = #{utel} and u.ubid = #{ubid} and u.ustuids = #{ustuids}
+  </select>
+
+    <select id="selectAllByFuzzyquerySize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen} or c.bname like #{bname}
+    order by u.uid desc
+  </select>
+
+    <select id="selectAllByFuzzyquery" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen} or c.bname like #{bname}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryFlag" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where (u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen} or c.bname like #{bname})
+        and u.uflag = #{uflag}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryFlagSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where (u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen} or c.bname like #{bname})
+        and u.uflag = #{uflag}
+    order by u.uid desc
+  </select>
+
+  <select id="selectAllByFuzzyqueryByBidSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where (u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen}) and u.ubid = #{ubid}
+    order by u.uid desc
+  </select>
+
+  <select id="selectAllByFuzzyqueryByBid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where (u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen}) and u.ubid = #{ubid}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryByBidFlag" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where (u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen}) and u.ubid = #{ubid} and u.uflag = #{uflag}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryByBidFlagSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rusers">
+    select u.*, c.bname from rusers as u
+    left join rclasss as c on c.bid = u.ubid
+    where (u.uname like #{uname} or u.utel like #{utel}  or u.uroomnumber like #{uroomnumber}
+        or u.ustuids like #{ustuids}  or u.ushen like #{ushen}) and u.ubid = #{ubid} and u.uflag = #{uflag}
+    order by u.uid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insertUserInfo" parameterType="com.myclouds.manager.pojo.Rusers" >
+    insert into rusers (uimg, uname, upwd,
+    utel, usex, uage, uroomnumber,ustuids, ushen,ubid, udailyclockdate)
+    values (#{uimg,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{upwd,jdbcType=VARCHAR},
+    #{utel,jdbcType=VARCHAR}, #{usex,jdbcType=VARCHAR}, #{uage,jdbcType=VARCHAR}, #{uroomnumber,jdbcType=VARCHAR},
+    #{ustuids,jdbcType=VARCHAR}, #{ushen,jdbcType=VARCHAR}, #{ubid,jdbcType=INTEGER},#{udailyclockdate,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateUserInfo" parameterType="com.myclouds.manager.pojo.Rusers" >
+    update rusers
+    set uimg = #{uimg,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR},
+      upwd = #{upwd,jdbcType=VARCHAR},
+      utel = #{utel,jdbcType=VARCHAR},
+      usex = #{usex,jdbcType=VARCHAR},
+      uage = #{uage,jdbcType=VARCHAR},
+      uroomnumber = #{uroomnumber,jdbcType=VARCHAR},
+      ustuids = #{ustuids,jdbcType=VARCHAR},
+      ushen = #{ushen,jdbcType=VARCHAR},
+      ubid = #{ubid,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateUserFlagInfo" parameterType="com.myclouds.manager.pojo.Rusers" >
+    update rusers
+    set udailyclockdate = #{udailyclockdate,jdbcType=VARCHAR},
+      uflag = #{uflag,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    uid, uimg, uname, upwd, utel, usex, uage, uroomnumber, ustuids, ushen
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RusersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rusers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rusers
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rusers
+    where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RusersExample" >
+    delete from rusers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rusers" >
+    <selectKey resultType="java.lang.Integer" keyProperty="uid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rusers (uimg, uname, upwd, 
+      utel, usex, uage, uroomnumber, 
+      ustuids, ushen)
+    values (#{uimg,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{upwd,jdbcType=VARCHAR}, 
+      #{utel,jdbcType=VARCHAR}, #{usex,jdbcType=VARCHAR}, #{uage,jdbcType=VARCHAR}, #{uroomnumber,jdbcType=VARCHAR}, 
+      #{ustuids,jdbcType=VARCHAR}, #{ushen,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rusers" >
+    <selectKey resultType="java.lang.Integer" keyProperty="uid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rusers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uimg != null" >
+        uimg,
+      </if>
+      <if test="uname != null" >
+        uname,
+      </if>
+      <if test="upwd != null" >
+        upwd,
+      </if>
+      <if test="utel != null" >
+        utel,
+      </if>
+      <if test="usex != null" >
+        usex,
+      </if>
+      <if test="uage != null" >
+        uage,
+      </if>
+      <if test="uroomnumber != null" >
+        uroomnumber,
+      </if>
+      <if test="ustuids != null" >
+        ustuids,
+      </if>
+      <if test="ushen != null" >
+        ushen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uimg != null" >
+        #{uimg,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="upwd != null" >
+        #{upwd,jdbcType=VARCHAR},
+      </if>
+      <if test="utel != null" >
+        #{utel,jdbcType=VARCHAR},
+      </if>
+      <if test="usex != null" >
+        #{usex,jdbcType=VARCHAR},
+      </if>
+      <if test="uage != null" >
+        #{uage,jdbcType=VARCHAR},
+      </if>
+      <if test="uroomnumber != null" >
+        #{uroomnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="ustuids != null" >
+        #{ustuids,jdbcType=VARCHAR},
+      </if>
+      <if test="ushen != null" >
+        #{ushen,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RusersExample" resultType="java.lang.Integer" >
+    select count(*) from rusers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rusers
+    <set >
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uimg != null" >
+        uimg = #{record.uimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uname != null" >
+        uname = #{record.uname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upwd != null" >
+        upwd = #{record.upwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utel != null" >
+        utel = #{record.utel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usex != null" >
+        usex = #{record.usex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uage != null" >
+        uage = #{record.uage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uroomnumber != null" >
+        uroomnumber = #{record.uroomnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ustuids != null" >
+        ustuids = #{record.ustuids,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ushen != null" >
+        ushen = #{record.ushen,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rusers
+    set uid = #{record.uid,jdbcType=INTEGER},
+      uimg = #{record.uimg,jdbcType=VARCHAR},
+      uname = #{record.uname,jdbcType=VARCHAR},
+      upwd = #{record.upwd,jdbcType=VARCHAR},
+      utel = #{record.utel,jdbcType=VARCHAR},
+      usex = #{record.usex,jdbcType=VARCHAR},
+      uage = #{record.uage,jdbcType=VARCHAR},
+      uroomnumber = #{record.uroomnumber,jdbcType=VARCHAR},
+      ustuids = #{record.ustuids,jdbcType=VARCHAR},
+      ushen = #{record.ushen,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rusers" >
+    update rusers
+    <set >
+      <if test="uimg != null" >
+        uimg = #{uimg,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="upwd != null" >
+        upwd = #{upwd,jdbcType=VARCHAR},
+      </if>
+      <if test="utel != null" >
+        utel = #{utel,jdbcType=VARCHAR},
+      </if>
+      <if test="usex != null" >
+        usex = #{usex,jdbcType=VARCHAR},
+      </if>
+      <if test="uage != null" >
+        uage = #{uage,jdbcType=VARCHAR},
+      </if>
+      <if test="uroomnumber != null" >
+        uroomnumber = #{uroomnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="ustuids != null" >
+        ustuids = #{ustuids,jdbcType=VARCHAR},
+      </if>
+      <if test="ushen != null" >
+        ushen = #{ushen,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rusers" >
+    update rusers
+    set uimg = #{uimg,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR},
+      upwd = #{upwd,jdbcType=VARCHAR},
+      utel = #{utel,jdbcType=VARCHAR},
+      usex = #{usex,jdbcType=VARCHAR},
+      uage = #{uage,jdbcType=VARCHAR},
+      uroomnumber = #{uroomnumber,jdbcType=VARCHAR},
+      ustuids = #{ustuids,jdbcType=VARCHAR},
+      ushen = #{ushen,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+</mapper>

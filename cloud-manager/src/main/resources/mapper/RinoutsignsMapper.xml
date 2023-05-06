@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RinoutsignsMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rinoutsigns" >
+    <id column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="cdate" property="cdate" jdbcType="DATE" />
+    <result column="ctype" property="ctype" jdbcType="INTEGER" />
+    <result column="ctemperature" property="ctemperature" jdbcType="VARCHAR" />
+    <result column="cuid" property="cuid" jdbcType="INTEGER" />
+    <result column="ctypename" property="ctypename" jdbcType="VARCHAR" />
+    <result column="cuzhengjianhaoma" property="cuzhengjianhaoma" jdbcType="VARCHAR" />
+    <result column="cfromattrs" property="cfromattrs" jdbcType="VARCHAR" />
+    <result column="cshentizhuangkuang" property="cshentizhuangkuang" jdbcType="VARCHAR" />
+    <result column="ctoattrs" property="ctoattrs" jdbcType="VARCHAR" />
+
+    <result column="uimg" property="uimg" jdbcType="VARCHAR" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="utel" property="utel" jdbcType="VARCHAR" />
+    <result column="uroomnumber" property="uroomnumber" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectAllSize" resultMap="BaseResultMap" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    order by d.cid desc
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    order by d.cid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    where d.cid = #{cid,jdbcType=INTEGER}
+    order by d.cid desc
+  </select>
+  <select id="selectByUidSize" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    where d.cuid = #{cuid,jdbcType=INTEGER}
+    order by d.cid desc
+  </select>
+  <select id="selectByUid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    where d.cuid = #{cuid,jdbcType=INTEGER}
+    order by d.cid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByBidSize" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid= #{bid,jdbcType=INTEGER}
+    order by d.cid desc
+  </select>
+  <select id="selectByBid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    left join rclasss as c on c.bid = u.ubid
+    where u.ubid= #{bid,jdbcType=INTEGER}
+    order by d.cid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyquerySize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    where d.cuzhengjianhaoma like #{cuzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.ctypename like #{ctypename,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.cfromattrs like #{cfromattrs,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR}
+    order by d.cid desc
+  </select>
+  <select id="selectAllByFuzzyquery" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    where d.cuzhengjianhaoma like #{cuzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.ctypename like #{ctypename,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.cfromattrs like #{cfromattrs,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR}
+    order by d.cid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllByFuzzyqueryByUidSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    where (d.cuzhengjianhaoma like #{cuzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.ctypename like #{ctypename,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.cfromattrs like #{cfromattrs,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and d.cuid = #{cuid,jdbcType=INTEGER}
+    order by d.cid desc
+  </select>
+  <select id="selectAllByFuzzyqueryByUid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    where (d.cuzhengjianhaoma like #{cuzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.ctypename like #{ctypename,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.cfromattrs like #{cfromattrs,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and d.cuid = #{cuid,jdbcType=INTEGER}
+    order by d.cid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByFuzzyqueryByBidSize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    left join rclasss as c on c.bid = u.ubid
+    where (d.cuzhengjianhaoma like #{cuzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.ctypename like #{ctypename,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.cfromattrs like #{cfromattrs,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and u.ubid = #{bid,jdbcType=INTEGER}
+    order by d.cid desc
+  </select>
+  <select id="selectAllByFuzzyqueryByBid" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rinoutsigns">
+    select d.*, u.uimg, u.uname, u.utel, u.uroomnumber
+    from rinoutsigns as d
+    left join rusers as u on u.uid = d.cuid
+    left join rclasss as c on c.bid = u.ubid
+    where (d.cuzhengjianhaoma like #{cuzhengjianhaoma,jdbcType=VARCHAR} or u.uname like #{uname,jdbcType=VARCHAR}
+      or d.ctypename like #{ctypename,jdbcType=VARCHAR} or u.utel like #{utel,jdbcType=VARCHAR}
+      or d.cfromattrs like #{cfromattrs,jdbcType=VARCHAR} or u.uroomnumber like #{uroomnumber,jdbcType=VARCHAR})
+      and u.ubid = #{bid,jdbcType=INTEGER}
+    order by d.cid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cid, cdate, ctype, ctemperature, cuid, ctypename, cuzhengjianhaoma, cfromattrs, cshentizhuangkuang, 
+    ctoattrs
+  </sql>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RinoutsignsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rinoutsigns
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rinoutsigns
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rinoutsigns
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RinoutsignsExample" >
+    delete from rinoutsigns
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rinoutsigns" >
+    <selectKey resultType="java.lang.Integer" keyProperty="cid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rinoutsigns (cdate, ctype, ctemperature, 
+      cuid, ctypename, cuzhengjianhaoma, 
+      cfromattrs, cshentizhuangkuang, ctoattrs
+      )
+    values (#{cdate,jdbcType=DATE}, #{ctype,jdbcType=INTEGER}, #{ctemperature,jdbcType=VARCHAR}, 
+      #{cuid,jdbcType=INTEGER}, #{ctypename,jdbcType=VARCHAR}, #{cuzhengjianhaoma,jdbcType=VARCHAR}, 
+      #{cfromattrs,jdbcType=VARCHAR}, #{cshentizhuangkuang,jdbcType=VARCHAR}, #{ctoattrs,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rinoutsigns" >
+    <selectKey resultType="java.lang.Integer" keyProperty="cid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rinoutsigns
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cdate != null" >
+        cdate,
+      </if>
+      <if test="ctype != null" >
+        ctype,
+      </if>
+      <if test="ctemperature != null" >
+        ctemperature,
+      </if>
+      <if test="cuid != null" >
+        cuid,
+      </if>
+      <if test="ctypename != null" >
+        ctypename,
+      </if>
+      <if test="cuzhengjianhaoma != null" >
+        cuzhengjianhaoma,
+      </if>
+      <if test="cfromattrs != null" >
+        cfromattrs,
+      </if>
+      <if test="cshentizhuangkuang != null" >
+        cshentizhuangkuang,
+      </if>
+      <if test="ctoattrs != null" >
+        ctoattrs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cdate != null" >
+        #{cdate,jdbcType=DATE},
+      </if>
+      <if test="ctype != null" >
+        #{ctype,jdbcType=INTEGER},
+      </if>
+      <if test="ctemperature != null" >
+        #{ctemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="cuid != null" >
+        #{cuid,jdbcType=INTEGER},
+      </if>
+      <if test="ctypename != null" >
+        #{ctypename,jdbcType=VARCHAR},
+      </if>
+      <if test="cuzhengjianhaoma != null" >
+        #{cuzhengjianhaoma,jdbcType=VARCHAR},
+      </if>
+      <if test="cfromattrs != null" >
+        #{cfromattrs,jdbcType=VARCHAR},
+      </if>
+      <if test="cshentizhuangkuang != null" >
+        #{cshentizhuangkuang,jdbcType=VARCHAR},
+      </if>
+      <if test="ctoattrs != null" >
+        #{ctoattrs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RinoutsignsExample" resultType="java.lang.Integer" >
+    select count(*) from rinoutsigns
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rinoutsigns
+    <set >
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdate != null" >
+        cdate = #{record.cdate,jdbcType=DATE},
+      </if>
+      <if test="record.ctype != null" >
+        ctype = #{record.ctype,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctemperature != null" >
+        ctemperature = #{record.ctemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuid != null" >
+        cuid = #{record.cuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctypename != null" >
+        ctypename = #{record.ctypename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuzhengjianhaoma != null" >
+        cuzhengjianhaoma = #{record.cuzhengjianhaoma,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cfromattrs != null" >
+        cfromattrs = #{record.cfromattrs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cshentizhuangkuang != null" >
+        cshentizhuangkuang = #{record.cshentizhuangkuang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctoattrs != null" >
+        ctoattrs = #{record.ctoattrs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rinoutsigns
+    set cid = #{record.cid,jdbcType=INTEGER},
+      cdate = #{record.cdate,jdbcType=DATE},
+      ctype = #{record.ctype,jdbcType=INTEGER},
+      ctemperature = #{record.ctemperature,jdbcType=VARCHAR},
+      cuid = #{record.cuid,jdbcType=INTEGER},
+      ctypename = #{record.ctypename,jdbcType=VARCHAR},
+      cuzhengjianhaoma = #{record.cuzhengjianhaoma,jdbcType=VARCHAR},
+      cfromattrs = #{record.cfromattrs,jdbcType=VARCHAR},
+      cshentizhuangkuang = #{record.cshentizhuangkuang,jdbcType=VARCHAR},
+      ctoattrs = #{record.ctoattrs,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rinoutsigns" >
+    update rinoutsigns
+    <set >
+      <if test="cdate != null" >
+        cdate = #{cdate,jdbcType=DATE},
+      </if>
+      <if test="ctype != null" >
+        ctype = #{ctype,jdbcType=INTEGER},
+      </if>
+      <if test="ctemperature != null" >
+        ctemperature = #{ctemperature,jdbcType=VARCHAR},
+      </if>
+      <if test="cuid != null" >
+        cuid = #{cuid,jdbcType=INTEGER},
+      </if>
+      <if test="ctypename != null" >
+        ctypename = #{ctypename,jdbcType=VARCHAR},
+      </if>
+      <if test="cuzhengjianhaoma != null" >
+        cuzhengjianhaoma = #{cuzhengjianhaoma,jdbcType=VARCHAR},
+      </if>
+      <if test="cfromattrs != null" >
+        cfromattrs = #{cfromattrs,jdbcType=VARCHAR},
+      </if>
+      <if test="cshentizhuangkuang != null" >
+        cshentizhuangkuang = #{cshentizhuangkuang,jdbcType=VARCHAR},
+      </if>
+      <if test="ctoattrs != null" >
+        ctoattrs = #{ctoattrs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rinoutsigns" >
+    update rinoutsigns
+    set cdate = #{cdate,jdbcType=DATE},
+      ctype = #{ctype,jdbcType=INTEGER},
+      ctemperature = #{ctemperature,jdbcType=VARCHAR},
+      cuid = #{cuid,jdbcType=INTEGER},
+      ctypename = #{ctypename,jdbcType=VARCHAR},
+      cuzhengjianhaoma = #{cuzhengjianhaoma,jdbcType=VARCHAR},
+      cfromattrs = #{cfromattrs,jdbcType=VARCHAR},
+      cshentizhuangkuang = #{cshentizhuangkuang,jdbcType=VARCHAR},
+      ctoattrs = #{ctoattrs,jdbcType=VARCHAR}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myclouds.manager.mapper.RteachersMapper" >
+  <resultMap id="BaseResultMap" type="com.myclouds.manager.pojo.Rteachers" >
+    <id column="tuid" property="tuid" jdbcType="INTEGER" />
+    <result column="tuimg" property="tuimg" jdbcType="VARCHAR" />
+    <result column="tuname" property="tuname" jdbcType="VARCHAR" />
+    <result column="tupwd" property="tupwd" jdbcType="VARCHAR" />
+    <result column="tutel" property="tutel" jdbcType="VARCHAR" />
+    <result column="tusex" property="tusex" jdbcType="VARCHAR" />
+    <result column="tuage" property="tuage" jdbcType="VARCHAR" />
+    <result column="tushen" property="tushen" jdbcType="VARCHAR" />
+    <result column="tubid" property="tubid" jdbcType="INTEGER" />
+    <result column="tuids" property="tuids" jdbcType="VARCHAR" />
+
+    <result column="bname" property="bname" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectAllSize" resultMap="BaseResultMap" >
+    select u.*, c.bname from rteachers as u
+    left join rclasss as c on c.bid = u.tubid
+    order by u.tuid desc
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap"  parameterType="com.myclouds.manager.pojo.Rteachers">
+    select u.*, c.bname from rteachers as u
+    left join rclasss as c on c.bid = u.tubid
+    order by u.tuid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+    <select id="selectById" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+    select u.*, c.bname from rteachers as u
+    left join rclasss as c on c.bid = u.tubid
+    where u.tuid = #{0}
+  </select>
+
+    <select id="selectByTuids" resultMap="BaseResultMap"
+            parameterType="String">
+    select u.*, c.bname from rteachers as u
+    left join rclasss as c on c.bid = u.tubid
+    where u.tuids = #{tuids}
+  </select>
+
+    <select id="selectAllByFuzzyquerySize" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rteachers">
+    select u.*, c.bname from rteachers as u
+    left join rclasss as c on c.bid = u.tubid
+    where u.tuname like #{tuname} or u.tutel like #{tutel} or u.tushen like #{tushen} or c.bname like #{bname}
+    order by u.tuid desc
+  </select>
+
+    <select id="selectAllByFuzzyquery" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.Rteachers">
+    select u.*, c.bname from rteachers as u
+    left join rclasss as c on c.bid = u.tubid
+    where u.tuname like #{tuname} or u.tutel like #{tutel} or u.tushen like #{tushen} or c.bname like #{bname}
+    order by u.tuid desc
+    limit #{currpage,jdbcType=INTEGER},#{currpagenums,jdbcType=INTEGER}
+  </select>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    tuid, tuimg, tuname, tupwd, tutel, tusex, tuage, tushen, tubid, tuids
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.myclouds.manager.pojo.RteachersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rteachers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rteachers
+    where tuid = #{tuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rteachers
+    where tuid = #{tuid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myclouds.manager.pojo.RteachersExample" >
+    delete from rteachers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myclouds.manager.pojo.Rteachers" >
+    <selectKey resultType="java.lang.Integer" keyProperty="tuid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rteachers (tuimg, tuname, tupwd, 
+      tutel, tusex, tuage, 
+      tushen, tubid, tuids
+      )
+    values (#{tuimg,jdbcType=VARCHAR}, #{tuname,jdbcType=VARCHAR}, #{tupwd,jdbcType=VARCHAR}, 
+      #{tutel,jdbcType=VARCHAR}, #{tusex,jdbcType=VARCHAR}, #{tuage,jdbcType=VARCHAR}, 
+      #{tushen,jdbcType=VARCHAR}, #{tubid,jdbcType=INTEGER}, #{tuids,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.myclouds.manager.pojo.Rteachers" >
+    <selectKey resultType="java.lang.Integer" keyProperty="tuid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rteachers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tuimg != null" >
+        tuimg,
+      </if>
+      <if test="tuname != null" >
+        tuname,
+      </if>
+      <if test="tupwd != null" >
+        tupwd,
+      </if>
+      <if test="tutel != null" >
+        tutel,
+      </if>
+      <if test="tusex != null" >
+        tusex,
+      </if>
+      <if test="tuage != null" >
+        tuage,
+      </if>
+      <if test="tushen != null" >
+        tushen,
+      </if>
+      <if test="tubid != null" >
+        tubid,
+      </if>
+      <if test="tuids != null" >
+        tuids,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tuimg != null" >
+        #{tuimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tuname != null" >
+        #{tuname,jdbcType=VARCHAR},
+      </if>
+      <if test="tupwd != null" >
+        #{tupwd,jdbcType=VARCHAR},
+      </if>
+      <if test="tutel != null" >
+        #{tutel,jdbcType=VARCHAR},
+      </if>
+      <if test="tusex != null" >
+        #{tusex,jdbcType=VARCHAR},
+      </if>
+      <if test="tuage != null" >
+        #{tuage,jdbcType=VARCHAR},
+      </if>
+      <if test="tushen != null" >
+        #{tushen,jdbcType=VARCHAR},
+      </if>
+      <if test="tubid != null" >
+        #{tubid,jdbcType=INTEGER},
+      </if>
+      <if test="tuids != null" >
+        #{tuids,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myclouds.manager.pojo.RteachersExample" resultType="java.lang.Integer" >
+    select count(*) from rteachers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rteachers
+    <set >
+      <if test="record.tuid != null" >
+        tuid = #{record.tuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.tuimg != null" >
+        tuimg = #{record.tuimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tuname != null" >
+        tuname = #{record.tuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tupwd != null" >
+        tupwd = #{record.tupwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tutel != null" >
+        tutel = #{record.tutel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tusex != null" >
+        tusex = #{record.tusex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tuage != null" >
+        tuage = #{record.tuage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tushen != null" >
+        tushen = #{record.tushen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tubid != null" >
+        tubid = #{record.tubid,jdbcType=INTEGER},
+      </if>
+      <if test="record.tuids != null" >
+        tuids = #{record.tuids,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rteachers
+    set tuid = #{record.tuid,jdbcType=INTEGER},
+      tuimg = #{record.tuimg,jdbcType=VARCHAR},
+      tuname = #{record.tuname,jdbcType=VARCHAR},
+      tupwd = #{record.tupwd,jdbcType=VARCHAR},
+      tutel = #{record.tutel,jdbcType=VARCHAR},
+      tusex = #{record.tusex,jdbcType=VARCHAR},
+      tuage = #{record.tuage,jdbcType=VARCHAR},
+      tushen = #{record.tushen,jdbcType=VARCHAR},
+      tubid = #{record.tubid,jdbcType=INTEGER},
+      tuids = #{record.tuids,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myclouds.manager.pojo.Rteachers" >
+    update rteachers
+    <set >
+      <if test="tuimg != null" >
+        tuimg = #{tuimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tuname != null" >
+        tuname = #{tuname,jdbcType=VARCHAR},
+      </if>
+      <if test="tupwd != null" >
+        tupwd = #{tupwd,jdbcType=VARCHAR},
+      </if>
+      <if test="tutel != null" >
+        tutel = #{tutel,jdbcType=VARCHAR},
+      </if>
+      <if test="tusex != null" >
+        tusex = #{tusex,jdbcType=VARCHAR},
+      </if>
+      <if test="tuage != null" >
+        tuage = #{tuage,jdbcType=VARCHAR},
+      </if>
+      <if test="tushen != null" >
+        tushen = #{tushen,jdbcType=VARCHAR},
+      </if>
+      <if test="tubid != null" >
+        tubid = #{tubid,jdbcType=INTEGER},
+      </if>
+      <if test="tuids != null" >
+        tuids = #{tuids,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tuid = #{tuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myclouds.manager.pojo.Rteachers" >
+    update rteachers
+    set tuimg = #{tuimg,jdbcType=VARCHAR},
+      tuname = #{tuname,jdbcType=VARCHAR},
+      tupwd = #{tupwd,jdbcType=VARCHAR},
+      tutel = #{tutel,jdbcType=VARCHAR},
+      tusex = #{tusex,jdbcType=VARCHAR},
+      tuage = #{tuage,jdbcType=VARCHAR},
+      tushen = #{tushen,jdbcType=VARCHAR},
+      tubid = #{tubid,jdbcType=INTEGER},
+      tuids = #{tuids,jdbcType=VARCHAR}
+    where tuid = #{tuid,jdbcType=INTEGER}
+  </update>
+</mapper>
